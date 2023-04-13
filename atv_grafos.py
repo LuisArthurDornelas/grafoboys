@@ -26,6 +26,8 @@
 
 import networkx as nx
 import matplotlib.pyplot as plt
+from art import text2art
+
 
 def startNaoValorado():
 
@@ -69,13 +71,7 @@ def startValorado():
     nx.draw(grafo, with_labels=True)
     plt.show()
 
-print("   __            _         ___                   ")
-print("  / _|_ _ _ _ / | __   | _ )  __  _   _ _  ")
-print(" | |  | '/ _` | | / _ \  |  _ \ / _ \| | | / __| ")
-print(" | || | | | (| |  | () | | |) | () | || \_ \ ")
-print("  \__||  \,||  \_/  |_/ \__/ \, |__/ ")
-print("                                          |_/      ")
-
+print(text2art("GrafoBoys"))
 
 direcionado = input("Grafo direcionado? Y para sim e N para não:")
 if(direcionado == 'Y'):
