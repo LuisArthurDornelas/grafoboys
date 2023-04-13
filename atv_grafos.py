@@ -1,29 +1,3 @@
-# > Interagir com o sistema, inserindo vertices e arestas 
-# um por um ou tudo de uma só vez;
-
-# > Criar grafos:
-#    - Direcionados
-#    - Não direcionados
-#    - Valorados
-#    - Não valorados
-
-# > Imprimir grafo em formato livre ou grafico;
-
-# > Exibir ordem e tamanho do grafo;
-
-# > Exibir a informação da lista de vértices adjacentes;
-# > Se o grafo for direcionado, o sistema deverá informar a lista 
-# de vértices adjacentes de entrada e de saída de um dado vértice;
-
-# > Para um dado vertice, informar o seu grau;
-# > Se o grafo for direcionado, informar grau de adjacência de entrada e de saída do vértice;
-
-# > Dado um par de vértices, retornar:
-#   - Se os dois vértices são adjacentes ou não
-#   - Caminha mais curto entre eles
-#   - Valor do custo de menor caminho
-#   - Sequencia de vertices do menor caminho
-
 import networkx as nx
 import matplotlib.pyplot as plt
 from art import text2art
@@ -36,7 +10,7 @@ def startNaoValorado():
         v = input() 
         if not v:   
             break 
-        grafo.add_nodes_from(v)
+        grafo.add_node(v)
 
     print("\nDigite as arestas do grafo: ")
     while(True):
@@ -48,6 +22,8 @@ def startNaoValorado():
         grafo.add_edge(a1, a2)
 
     nx.draw(grafo, with_labels=True)
+    labels = nx.get_edge_attributes(grafo, 'weight')
+    nx.draw_networkx_edge_labels(grafo, pos=nx.spring_layout(grafo), edge_labels=labels)
     plt.show()
 
 def startValorado():
@@ -57,30 +33,32 @@ def startValorado():
         v = input() 
         if not v:   
             break 
-        grafo.add_nodes_from(v)
+        grafo.add_node(v)
 
-    print("\nDigite as arestas do grafo junto com o peso\no formato (aresta1 aresta2 peso): ")
+    print("\nDigite as arestas do grafo junto com o peso\nno formato (aresta1 aresta2 peso): ")
     while(True):
         a = input()
         if not a:
             break 
 
-        a1, a2 = a.split()
-        grafo.add_edge(a1, a2)
+        a1, a2, p = a.split()
+        grafo.add_edge(a1, a2, weight=float(p))
 
     nx.draw(grafo, with_labels=True)
+    labels = nx.get_edge_attributes(grafo, 'weight')
+    nx.draw_networkx_edge_labels(grafo, pos=nx.spring_layout(grafo), edge_labels=labels)
     plt.show()
 
 print(text2art("GrafoBoys"))
 
 direcionado = input("Grafo direcionado? Y para sim e N para não:")
-if(direcionado == 'Y'):
+if(direcionado.lower() == 'y'):
     grafo = nx.DiGraph()
 else:
     grafo = nx.Graph()
 
 valorado = input("Grafo valorado? Y para sim e N para não:")
-if(valorado == 'Y'):
+if(valorado.lower() == 'y'):
     startValorado()
 else:
     startNaoValorado()
