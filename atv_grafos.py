@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 # Pergunta se o grafo é direcionado
-is_dirigido = input("O grafo é dirigido? (s/n): ").lower() == 's'
+is_dirigido = input("O grafo é direcionado? (s/n): ").lower() == 's'
 
 # Pergunta se o grafo é valorado
 is_valorado = input("O grafo é valorado? (s/n): ").lower() == 's'
@@ -91,19 +91,21 @@ while(True):
         if nx.has_path(grafo, v1, v2):
             menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight') if is_valorado else nx.shortest_path(grafo, source=v1, target=v2)
             print("Menor caminho entre os vértices: ", str(menor_caminho))
+
+            custo_menor_caminho = nx.shortest_path_length(grafo, source=v1, target=v2, weight='weight')
+            print("Peso do menor caminho entre os vértices: ", custo_menor_caminho)
         else:
             print("Não  há caminho entre os vértices!")
     else:
         if nx.has_path(grafo.reverse(), v2, v1):
             menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight') if is_valorado else nx.shortest_path(grafo, source=v1, target=v2)
             print("Menor caminho entre os vértices: ", menor_caminho)
+
+            custo_menor_caminho = nx.shortest_path_length(grafo, source=v1, target=v2, weight='weight')
+            print("Peso do menor caminho entre os vértices: ", custo_menor_caminho)
         else:
             print("Não  há caminho entre os vértices!")
-    
-
-
-
-    
+   
     # Calcula o menor caminho e o custo do menor caminho (caso o grafo seja valorado)
 
 # Calcula e imprime o raio e o diâmetro do grafo
