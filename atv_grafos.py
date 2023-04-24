@@ -1,50 +1,70 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-direcionado = input("Deseja criar um grafo direcionado? (s/n): ")
-if direcionado.lower() == "s":
+# Pergunta se o grafo é direcionado
+is_dirigido = input("O grafo é dirigido? (s/n): ").lower() == 's'
+
+# Pergunta se o grafo é valorado
+is_valorado = input("O grafo é valorado? (s/n): ").lower() == 's'
+
+# Cria o grafo correspondente ao tipo
+if is_dirigido:
     grafo = nx.DiGraph()
 else:
     grafo = nx.Graph()
 
-print("\nDigite os vértices do grafo: ")
+# Solicita a entrada de vértices
+print("\nDigite os vertices do grafo: ")
 while(True):
     v = input() 
     if not v:   
         break 
     grafo.add_node(v)
 
-print("\nDigite as arestas do grafo (x y): ")
+# Solicita a entrada de arestas
+print("\nDigite as arestas do grafo(x y peso): ")
 while(True):
     a = input()
     if not a:
         break 
 
-    a1, a2 = a.split()
-    grafo.add_edge(a1, a2)
+    a1, a2, *peso = a.split()
+    peso = float(peso[0]) if peso else 1.0
 
-nx.draw(grafo, with_labels=True)
+    if is_valorado:
+        grafo.add_edge(a1, a2, weight=peso)
+    else:
+        grafo.add_edge(a1, a2)
+
+# Imprime o grafo
+pos = nx.spring_layout(grafo)
+labels = nx.get_edge_attributes(grafo, 'weight')
+nx.draw_networkx_nodes(grafo, pos, node_color='r', node_size=500)
+nx.draw_networkx_edges(grafo, pos, edge_color='b', arrows=True)
+nx.draw_networkx_labels(grafo, pos, font_size=20, font_family='sans-serif')
+nx.draw_networkx_edge_labels(grafo, pos, edge_labels=labels, font_size=16)
+plt.axis('off')
 plt.show()
 
-# Imprimir ordem e tamanho do grafo
+# Imprime ordem e tamanho do grafo
 print("Ordem do grafo:", grafo.order())
 print("Tamanho do grafo:", grafo.size())
 
-# Aqui ele pega todos os vertices do grafo e fala a quais vertices ele é adjacente
+# Imprime os vértices adjacentes a cada vértice
 for v in grafo.nodes():
     print("Vértices adjacentes a", v, ":", list(grafo.neighbors(v)))
 
-# Aqui vai pegar vertices como input e mostrar o grau (até que enter seja apertado duas vezes)
-print("\nDigite um vértice: ")
+# Solicita a entrada de um vértice para imprimir o grau
+print("\nDigite um vertice: ")
 while(True):
     v = input()
     if not v:
         break 
     print("Grau do vértice ", v,": ", grafo.degree(v))
 
-# Vai pegar um par de vertices como input e printar:
+# Solicita a entrada de um par de vértices para imprimir se eles são adjacentes, menor caminho e custo do menor caminho
 while(True):
-    print("\nDigite um par vertices (x y): ")
+    print("\nDigite um par vertices(x y): ")
 
     v = input()
     if not v:
@@ -52,18 +72,11 @@ while(True):
 
     v1, v2 = v.split()
     
-    # Se eles são adjecentes
+    # Verifica se são adjacentes
     if grafo.has_edge(v1, v2):
         print("O vértice", v1, "é adjacente ao vértice", v2)
-
     else:
         print("O vértice", v1, "não é adjacente ao vértice", v2)
 
-    # A rota do caminho mais curto entre eles
-    menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight')
-
-    # O custo do caminho mais curto entre eles
-    custo_menor_caminho = nx.shortest_path_length(grafo, source=v1, target=v2, weight='weight')
-
-    print("O menor caminho é:", menor_caminho)
-    print("O custo do menor caminho é:", custo_menor_caminho)
+    # Calcula o menor caminho e o custo do menor caminho (caso o grafo seja valorado)
+    menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight') if is_valorado else nx.shortest_path
