@@ -61,6 +61,14 @@ while(True):
     if not v:
         break 
     print("Grau do vértice ", v,": ", grafo.degree(v))
+    print("Lista de vértices adjacentes a", v, ": ")
+    if is_dirigido:
+        print("Entrada:", list(grafo.predecessors(v)))
+        print("Saída:", list(grafo.successors(v)))
+    else:
+        print(list(grafo.neighbors(v)))
+    print("\nDigite um vertice: ")
+
 
 # Solicita a entrada de um par de vértices para imprimir se eles são adjacentes, menor caminho e custo do menor caminho
 while(True):
@@ -78,5 +86,6 @@ while(True):
     else:
         print("O vértice", v1, "não é adjacente ao vértice", v2)
 
+    
     # Calcula o menor caminho e o custo do menor caminho (caso o grafo seja valorado)
     menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight') if is_valorado else nx.shortest_path
