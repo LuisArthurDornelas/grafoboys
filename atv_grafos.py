@@ -73,9 +73,11 @@ while(True):
 # Solicita a entrada de um par de vértices para imprimir se eles são adjacentes, menor caminho e custo do menor caminho
 while(True):
     print("\nDigite um par vertices(x y): ")
+    print("(Ou digite 'finalizar' para ver o raio e diâmetro):")
+
 
     v = input()
-    if not v:
+    if v.lower() == "finalizar":
         break 
 
     v1, v2 = v.split()
@@ -85,7 +87,27 @@ while(True):
         print("O vértice", v1, "é adjacente ao vértice", v2)
     else:
         print("O vértice", v1, "não é adjacente ao vértice", v2)
+    if not is_dirigido:
+        if nx.has_path(grafo, v1, v2):
+            menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight') if is_valorado else nx.shortest_path(grafo, source=v1, target=v2)
+            print("Menor caminho entre os vértices: ", str(menor_caminho))
+        else:
+            print("Não  há caminho entre os vértices!")
+    else:
+        if nx.has_path(grafo.reverse(), v2, v1):
+            menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight') if is_valorado else nx.shortest_path(grafo, source=v1, target=v2)
+            print("Menor caminho entre os vértices: ", menor_caminho)
+        else:
+            print("Não  há caminho entre os vértices!")
+    
+
+
 
     
     # Calcula o menor caminho e o custo do menor caminho (caso o grafo seja valorado)
-    menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight') if is_valorado else nx.shortest_path
+
+# Calcula e imprime o raio e o diâmetro do grafo
+raio = nx.radius(grafo)
+diametro = nx.diameter(grafo)
+print("Raio do grafo:", raio)
+print("Diâmetro do grafo:", diametro)
