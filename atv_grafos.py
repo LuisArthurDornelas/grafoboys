@@ -1,92 +1,66 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from art import text2art
 
+grafo = nx.Graph()
 
-def startNaoValorado():
+print("\nDigite os vertices do grafo: ")
+while(True):
+    v = input() 
+    if not v:   
+        break 
+    grafo.add_nodes_from(v)
+        
 
-    print("\nDigite os vertices do grafo: ")
-    while(True):
-        v = input() 
-        if not v:   
-            break 
-        grafo.add_node(v)
+print("\nDigite as arestas do grafo(x y): ")
+while(True):
+    a = input()
+    if not a:
+        break 
 
-    print("\nDigite as arestas do grafo: ")
-    while(True):
-        a = input()
-        if not a:
-            break 
+    a1, a2 = a.split()
+    grafo.add_edge(a1, a2)
 
-        a1, a2 = a.split()
-        grafo.add_edge(a1, a2)
-
-    nx.draw(grafo, with_labels=True)
-    labels = nx.get_edge_attributes(grafo, 'weight')
-    nx.draw_networkx_edge_labels(grafo, pos=nx.spring_layout(grafo), edge_labels=labels)
-    plt.show()
-
-def startValorado():
-
-    print("\nDigite os vertices do grafo: ")
-    while(True):
-        v = input() 
-        if not v:   
-            break 
-        grafo.add_node(v)
-
-    print("\nDigite as arestas do grafo junto com o peso\nno formato (aresta1 aresta2 peso): ")
-    while(True):
-        a = input()
-        if not a:
-            break 
-
-        a1, a2, p = a.split()
-        grafo.add_edge(a1, a2, weight=float(p))
-
-    nx.draw(grafo, with_labels=True)
-    labels = nx.get_edge_attributes(grafo, 'weight')
-    nx.draw_networkx_edge_labels(grafo, pos=nx.spring_layout(grafo), edge_labels=labels)
-    plt.show()
-
-print(text2art("GrafoBoys"))
-
-direcionado = input("Grafo direcionado? Y para sim e N para não:")
-if(direcionado.lower() == 'y'):
-    grafo = nx.DiGraph()
-else:
-    grafo = nx.Graph()
-
-valorado = input("Grafo valorado? Y para sim e N para não:")
-if(valorado.lower() == 'y'):
-    startValorado()
-else:
-    startNaoValorado()
-
-
-""" # cria um novo grafo
-G = nx.Graph()
-
-# adiciona os nós
-G.add_nodes_from([1, 2, 3])
-
-# adiciona as arestas
-G.add_edges_from([(1, 2), (2, 3)])
-
-# desenha o grafo
-nx.draw(G, with_labels=True)
+nx.draw(grafo, with_labels=True)
 plt.show()
 
-# customiza o gráfico
-options = {
-    'node_color': 'pink',
-    'node_size': 500,
-    'width': 2,
-    'font_size': 16,
-    'with_labels': True,
-    'edge_color': 'purple'
-}
+# Imprimir ordem e tamanho do grafo
+print("Ordem do grafo:", grafo.order())
+print("Tamanho do grafo:", grafo.size())
 
-# desenha o grafo com as opções customizadas
-nx.draw(G, **options)
-plt.show() """
+# Aqui ele pega todos os vertices do grafo e fala a quais vertices ele é adjacente
+for v in grafo.nodes():
+    print("Vértices adjacentes a", v, ":", list(grafo.neighbors(v)))
+
+# Aqui vai pegar vertices como input e mostrar o grau(até q enter seja apertado duas vezes)
+print("\nDigite um vertice: ")
+while(True):
+    v = input()
+    if not v:
+        break 
+    print("Grau do vértice ", v,": ", grafo.degree(v))
+
+# Vai pegar um par de vertices como input e printar:
+while(True):
+    print("\nDigite um par vertices(x y): ")
+
+    v = input()
+    if not v:
+        break 
+
+    v1, v2 = v.split()
+    
+    # Se eles sao adjecentes
+    if grafo.has_edge(v1, v2):
+        print("O vértice", v1, "é adjacente ao vértice", v2)
+
+    else:
+        print("O vértice", v1, "não é adjacente ao vértice", v2)
+
+    # A rota do caminho mais curto entre eles
+    menor_caminho = nx.shortest_path(grafo, source=v1, target=v2, weight='weight')
+
+    # O custo do caminho mais curto entre eles
+    custo_menor_caminho = nx.shortest_path_length(grafo, source=v1, target=v2, weight='weight')
+
+    print("O menor caminho é:", menor_caminho)
+    print("O custo do menor caminho é:", custo_menor_caminho)
