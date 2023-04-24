@@ -1,17 +1,20 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-grafo = nx.Graph()
+direcionado = input("Deseja criar um grafo direcionado? (s/n): ")
+if direcionado.lower() == "s":
+    grafo = nx.DiGraph()
+else:
+    grafo = nx.Graph()
 
-print("\nDigite os vertices do grafo: ")
+print("\nDigite os vértices do grafo: ")
 while(True):
     v = input() 
     if not v:   
         break 
-    grafo.add_nodes_from(v)
-        
+    grafo.add_node(v)
 
-print("\nDigite as arestas do grafo(x y): ")
+print("\nDigite as arestas do grafo (x y): ")
 while(True):
     a = input()
     if not a:
@@ -31,8 +34,8 @@ print("Tamanho do grafo:", grafo.size())
 for v in grafo.nodes():
     print("Vértices adjacentes a", v, ":", list(grafo.neighbors(v)))
 
-# Aqui vai pegar vertices como input e mostrar o grau(até q enter seja apertado duas vezes)
-print("\nDigite um vertice: ")
+# Aqui vai pegar vertices como input e mostrar o grau (até que enter seja apertado duas vezes)
+print("\nDigite um vértice: ")
 while(True):
     v = input()
     if not v:
@@ -41,7 +44,7 @@ while(True):
 
 # Vai pegar um par de vertices como input e printar:
 while(True):
-    print("\nDigite um par vertices(x y): ")
+    print("\nDigite um par vertices (x y): ")
 
     v = input()
     if not v:
@@ -49,7 +52,7 @@ while(True):
 
     v1, v2 = v.split()
     
-    # Se eles sao adjecentes
+    # Se eles são adjecentes
     if grafo.has_edge(v1, v2):
         print("O vértice", v1, "é adjacente ao vértice", v2)
 
