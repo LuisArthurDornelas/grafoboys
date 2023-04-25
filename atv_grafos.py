@@ -1,5 +1,8 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+from art import text2art
+
+print(text2art("Grafo Boys", font="small"))
 
 # Pergunta se o grafo é direcionado
 is_dirigido = input("O grafo é direcionado? (s/n): ").lower() == 's'
