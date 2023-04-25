@@ -112,7 +112,13 @@ while(True):
     # Calcula o menor caminho e o custo do menor caminho (caso o grafo seja valorado)
 
 # Calcula e imprime o raio e o diâmetro do grafo
-raio = nx.radius(grafo)
-diametro = nx.diameter(grafo)
-print("\nRaio do grafo: ", raio)
-print("Diâmetro do grafo: ", diametro)
+try:
+    raio = nx.radius(grafo)
+except nx.NetworkXError:
+    print ("O grafo tem raio infinito!")
+
+try:
+    diametro = nx.diameter(grafo)
+except nx.NetworkXError:
+        print ("O grafo tem diâmetro infinito!")
+
