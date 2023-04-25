@@ -111,5 +111,5 @@ while(True):
 # Calcula e imprime o raio e o diâmetro do grafo
 raio = nx.radius(grafo)
 diametro = nx.diameter(grafo)
-print("Raio do grafo:", raio)
-print("Diâmetro do grafo:", diametro)
+print("\nRaio do grafo: ", raio)
+print("Diâmetro do grafo: ", diametro)
